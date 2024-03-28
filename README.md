@@ -1,4 +1,4 @@
-# Akhar AI Chatbot
+# Akhar AI
 
 Akhar AI is an intelligent chatbot powered by the ChatGPT API key to generate responses based on natural language inputs.
 
