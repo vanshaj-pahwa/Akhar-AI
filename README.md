@@ -9,15 +9,31 @@ Akhar AI is an intelligent chatbot powered by the ChatGPT API key to generate re
 - **Code Snippet Handling:** Akhar AI can handle code snippets intelligently, displaying them in a formatted code box for easy reading and copying.
 - **User-Friendly Interface:** The chatbot interface is user-friendly, allowing users to type messages, press Enter to send, and receive responses in real-time.
 - **Copy Code Functionality:** Users can easily copy code snippets displayed by the chatbot with a click of a button.
+- **Usage as a Node.js Chatbot (Terminal):** Akhar AI can also be used as a Node.js chatbot in the terminal. Simply install the dependencies using `npm install` and start the chatbot after adding your API_KEY in .env with `node index.js`. You can then enter messages in the terminal and receive responses from Akhar AI.
 
-## Usage
 
-To use Akhar AI chatbot:
+## Usage as a Web Chatbot
+
+To use Akhar AI chatbot in a web interface:
 
 1. Enter your message in the input field.
 2. Press Enter or click the Send button to send your message.
 3. The chatbot will process your message using the ChatGPT API key and provide a response.
 4. If the response includes a code snippet, it will be displayed in a formatted code box with a copy icon. Click the copy icon to copy the code snippet to your clipboard.
+
+## Usage as a Node.js Chatbot (Terminal)
+
+To use Akhar AI chatbot as a Node.js chatbot in the terminal:
+
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Create a `.env` file in the root directory and add your OpenAI API key: OPENAI_API_KEY=your_openai_api_key_here
+4. Install dependencies using `npm install`.
+5. Start the chatbot in the terminal using `node index.js`.
+6. Enter your messages in the terminal and press Enter to send.
+7. The chatbot will process your messages using the ChatGPT API key and provide responses.
+
+
 
 ## Technologies Used
 
