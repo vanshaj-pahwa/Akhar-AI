@@ -49,7 +49,7 @@ To use Akhar AI chatbot as a Node.js chatbot in the terminal:
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory.
-3. Create a `.env` file in the root directory and add your OpenAI API key:
+3. Create a `.env` file in the root directory and add your OpenAI API key:your_openai_api_key_here
 4. Navigate to the backend directory (`/backend`) in your terminal.
 5. Install backend dependencies using `npm install`.
 6. Start the backend server using `node server.js`.
