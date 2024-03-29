@@ -9,15 +9,19 @@ import {
   Tooltip,
   CircularProgress,
   Code,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons"
+import { CopyIcon } from "@chakra-ui/icons";
+import { allSuggestions } from "../../constants/constants";
 
 const AkharBotContainer = () => {
   const [userInput, setUserInput] = useState("");
   const [botResponse, setBotResponse] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showHeading, setShowHeading] = useState(true);
   const chatContainerRef = useRef(null);
+  const [suggestions, setSuggestions] = useState([]);
 
   const sendMessageToBot = async () => {
     setIsLoading(true);
@@ -41,11 +45,17 @@ const AkharBotContainer = () => {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       sendMessageToBot();
+      setShowHeading(false);
     }
   };
 
   const handleSendClick = () => {
     sendMessageToBot();
+    setShowHeading(false);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setUserInput(suggestion);
   };
 
   // Scroll to bottom of chat container when new message is added
@@ -76,25 +86,30 @@ const AkharBotContainer = () => {
       } else {
         const trimmedSegment = segment.trim();
         const handleCopyCode = () => {
-            navigator.clipboard.writeText(trimmedSegment);
-            alert('Copied to clipboard')
+          navigator.clipboard.writeText(trimmedSegment);
+          alert("Copied to clipboard");
         };
         return (
           <pre key={index}>
             <Box
               key={index}
               bgColor="gray.200"
-              color={'white'}
+              color={"white"}
               p={2}
               borderRadius="md"
               overflowX="auto"
               maxWidth="80%"
               margin={"1rem 0 1rem 0"}
             >
-            <Tooltip label="Copy code" aria-label="Copy code">
-              <CopyIcon color="gray.800" onClick={handleCopyCode} cursor={'pointer'} margin={'1rem'}/>
-            </Tooltip>
-              <Code display={'flex'}>{segment.trim()}</Code>
+              <Tooltip label="Copy code" aria-label="Copy code">
+                <CopyIcon
+                  color="gray.800"
+                  onClick={handleCopyCode}
+                  cursor={"pointer"}
+                  margin={"1rem"}
+                />
+              </Tooltip>
+              <Code display={"flex"}>{segment.trim()}</Code>
             </Box>
           </pre>
         );
@@ -103,6 +118,15 @@ const AkharBotContainer = () => {
 
     return <div>{elements}</div>;
   };
+
+  useEffect(() => {
+    const getRandomSuggestions = (suggestions, count) => {
+      const shuffled = suggestions.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    };
+
+    setSuggestions(getRandomSuggestions(allSuggestions, 4));
+  }, []);
 
   return (
     <Flex
@@ -113,6 +137,39 @@ const AkharBotContainer = () => {
       h="100vh"
       overflowY="auto"
     >
+      {/* Conditionally render the heading */}
+      {!showHeading ? null : (
+        <React.Fragment>
+          <Box mb={4} textAlign={"center"}>
+            <Text fontSize="3xl" fontWeight="bold">
+              Welcome to Akhar AI!
+            </Text>
+            <Text fontSize="2xl">How can I help you today?</Text>
+          </Box>
+
+          <Box mb={4} marginTop={"20%"}>
+            <SimpleGrid columns={2} spacing={4} mb={4}>
+              {suggestions.map((suggestion, index) => (
+                <Box
+                  key={index}
+                  p={4}
+                  border="1px solid #E2E8F0"
+                  borderRadius="md"
+                  cursor="pointer"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  _hover={{
+                    bg: "gray.100",
+                    borderColor: "gray.200",
+                  }}
+                >
+                  <Text>{suggestion}</Text>
+                </Box>
+              ))}
+            </SimpleGrid>
+          </Box>
+        </React.Fragment>
+      )}
+
       <Box flex="1" ref={chatContainerRef} mb={4}>
         {chatHistory.map((message, index) => (
           <Flex
@@ -152,6 +209,7 @@ const AkharBotContainer = () => {
             )}
           </Flex>
         ))}
+        {isLoading && <Text>Akhar is typing...</Text>}
       </Box>
       <Flex>
         <Input
