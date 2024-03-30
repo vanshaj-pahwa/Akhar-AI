@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { allSuggestions } from "../../constants/constants";
+import { replaceNewlinesWithBreaks, renderClickableLinksInMessage } from "../../constants/services";
 
 const AkharBotContainer = () => {
   const [userInput, setUserInput] = useState("");
@@ -58,10 +59,6 @@ const AkharBotContainer = () => {
 
   const handleSuggestionClick = (suggestion) => {
     setUserInput(suggestion);
-  };
-
-  const replaceNewlinesWithBreaks = (text) => {
-    return text.replace(/\n/g, "<br>");
   };
 
   // Scroll to bottom of chat container when new message is added
@@ -145,7 +142,7 @@ const AkharBotContainer = () => {
   return (
     <Flex
       direction="column"
-      maxW="800px"
+      maxW="900px"
       m="auto"
       p={4}
       h="100vh"
@@ -205,7 +202,7 @@ const AkharBotContainer = () => {
                   maxWidth="80%"
                   mb={2}
                   dangerouslySetInnerHTML={{
-                    __html: replaceNewlinesWithBreaks(message[1]),
+                    __html: replaceNewlinesWithBreaks(renderClickableLinksInMessage(message[1])),
                   }}
                 />
               )
@@ -219,7 +216,7 @@ const AkharBotContainer = () => {
                 maxWidth="80%"
                 mb={2}
                 dangerouslySetInnerHTML={{
-                  __html: replaceNewlinesWithBreaks(message[1]),
+                  __html: replaceNewlinesWithBreaks(renderClickableLinksInMessage(message[1])),
                 }}
               />
             )}
