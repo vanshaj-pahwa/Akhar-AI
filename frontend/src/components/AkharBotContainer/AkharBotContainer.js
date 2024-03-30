@@ -10,6 +10,7 @@ import {
   CircularProgress,
   Code,
   SimpleGrid,
+  useToast,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { allSuggestions } from "../../constants/constants";
@@ -22,6 +23,7 @@ const AkharBotContainer = () => {
   const [showHeading, setShowHeading] = useState(true);
   const chatContainerRef = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
+  const toast = useToast();
 
   const sendMessageToBot = async () => {
     setIsLoading(true);
@@ -64,11 +66,13 @@ const AkharBotContainer = () => {
 
   // Scroll to bottom of chat container when new message is added
   useEffect(() => {
-    chatContainerRef.current.scrollTo({
-      top: chatContainerRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [chatHistory]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chatHistory, isLoading]);
 
   const SegregateCode = ({ text }) => {
     const segments = text.split("```");
@@ -91,7 +95,13 @@ const AkharBotContainer = () => {
         const trimmedSegment = segment.trim();
         const handleCopyCode = () => {
           navigator.clipboard.writeText(trimmedSegment);
-          alert("Copied to clipboard");
+          // Show toast message for "Copied to clipboard"
+          toast({
+            title: "Copied to clipboard",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
         };
         return (
           <pre key={index}>
@@ -174,7 +184,7 @@ const AkharBotContainer = () => {
         </React.Fragment>
       )}
 
-      <Box flex="1" ref={chatContainerRef} mb={4}>
+      <Box flex="1" ref={chatContainerRef} mb={4} overflowY={'auto'}>
         {chatHistory.map((message, index) => (
           <Flex
             key={index}
@@ -226,11 +236,20 @@ const AkharBotContainer = () => {
           placeholder="Type your message..."
           mr={2}
         />
-        <Button onClick={handleSendClick} disabled={isLoading}>
+        <Button
+          onClick={handleSendClick}
+          disabled={isLoading}
+          backgroundColor={"blue.500"}
+          color={"white"}
+          _hover={{
+            bg: "blue.300",
+            color: "white",
+          }}
+        >
           {isLoading ? (
             <CircularProgress
               size="30px"
-              color="blue.500"
+              color="white"
               position="absolute"
               top="50%"
               left="50%"
