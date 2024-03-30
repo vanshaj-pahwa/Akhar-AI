@@ -58,6 +58,10 @@ const AkharBotContainer = () => {
     setUserInput(suggestion);
   };
 
+  const replaceNewlinesWithBreaks = (text) => {
+    return text.replace(/\n/g, "<br>");
+  };
+
   // Scroll to bottom of chat container when new message is added
   useEffect(() => {
     chatContainerRef.current.scrollTo({
@@ -190,9 +194,10 @@ const AkharBotContainer = () => {
                   borderRadius="md"
                   maxWidth="80%"
                   mb={2}
-                >
-                  {message[1]}
-                </Text>
+                  dangerouslySetInnerHTML={{
+                    __html: replaceNewlinesWithBreaks(message[1]),
+                  }}
+                />
               )
             ) : (
               <Text
@@ -203,9 +208,10 @@ const AkharBotContainer = () => {
                 borderRadius="md"
                 maxWidth="80%"
                 mb={2}
-              >
-                {message[1]}
-              </Text>
+                dangerouslySetInnerHTML={{
+                  __html: replaceNewlinesWithBreaks(message[1]),
+                }}
+              />
             )}
           </Flex>
         ))}

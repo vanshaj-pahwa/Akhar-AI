@@ -9,6 +9,7 @@ Akhar AI is an intelligent chatbot powered by the ChatGPT API key to generate re
 - **Code Snippet Handling:** Akhar AI can handle code snippets intelligently, displaying them in a formatted code box for easy reading and copying.
 - **User-Friendly Interface:** The chatbot interface is user-friendly, allowing users to type messages, press Enter to send, and receive responses in real-time.
 - **Copy Code Functionality:** Users can easily copy code snippets displayed by the chatbot with a click of a button.
+- **Next Line Handling:** Akhar AI handles next line breaks (\n) in messages, ensuring that messages with line breaks are displayed correctly in the chat interface.
 - **Usage as a Node.js Chatbot (Terminal):** Akhar AI can also be used as a Node.js chatbot in the terminal. Simply install the dependencies using `npm install` and start the chatbot after adding your API_KEY in .env with `node index.js`. You can then enter messages in the terminal and receive responses from Akhar AI.
 
 
