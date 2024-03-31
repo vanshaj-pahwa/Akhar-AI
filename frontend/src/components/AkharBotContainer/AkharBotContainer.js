@@ -31,7 +31,7 @@ const AkharBotContainer = () => {
     setIsLoading(true);
     setUserInput("");
     try {
-      const response = await axios.post("http://localhost:3001/ask-akhar", {
+      const response = await axios.post("https://akhar-ai.onrender.com/ask-akhar", {
         userInput,
         chatHistory,
       });
