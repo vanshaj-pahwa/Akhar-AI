@@ -11,6 +11,7 @@ import {
   Code,
   SimpleGrid,
   useToast,
+  Image
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { allSuggestions } from "../../constants/constants";
@@ -30,7 +31,7 @@ const AkharBotContainer = () => {
     setIsLoading(true);
     setUserInput("");
     try {
-      const response = await axios.post("http://localhost:3001/chatbot", {
+      const response = await axios.post("http://localhost:3001/ask-akhar", {
         userInput,
         chatHistory,
       });
@@ -148,6 +149,12 @@ const AkharBotContainer = () => {
       h="100vh"
       overflowY="auto"
     >
+      {/* Logo and Akhar Text */}
+      <Flex align="center" mb={6}>
+        <Image src="/logo.png" alt="Akhar Logo" width={30} height={30} mr={1} />
+        <Text fontSize="2xl" fontWeight="bold">akhar</Text>
+      </Flex>
+
       {/* Conditionally render the heading */}
       {!showHeading ? null : (
         <React.Fragment>
@@ -208,7 +215,6 @@ const AkharBotContainer = () => {
               )
             ) : (
               <Text
-                textAlign="right"
                 bgColor="blue.500"
                 color="white"
                 p={2}

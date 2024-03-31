@@ -12,13 +12,11 @@ app.use(express.json());
 app.use(cors());
 
 // Endpoint for handling chatbot requests
-app.post('/chatbot', async (req, res) => {
+app.post('/ask-akhar', async (req, res) => {
   const userInput = req.body.userInput;
   const chatHistory = req.body.chatHistory || [];
 
   try {
-    const { createChatCompletion } = await import('./config/open-ai.js');
-
     const messages = chatHistory.map(([role, content]) => ({ role, content }));
     messages.push({ role: 'user', content: userInput });
 
