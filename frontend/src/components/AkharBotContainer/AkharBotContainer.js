@@ -19,7 +19,7 @@ import { replaceNewlinesWithBreaks, renderClickableLinksInMessage } from "../../
 
 const AkharBotContainer = () => {
   const [userInput, setUserInput] = useState("");
-  const [botResponse, setBotResponse] = useState("");
+  const [, setBotResponse] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showHeading, setShowHeading] = useState(true);
