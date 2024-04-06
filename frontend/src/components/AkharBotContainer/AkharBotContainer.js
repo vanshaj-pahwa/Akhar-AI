@@ -11,11 +11,14 @@ import {
   Code,
   SimpleGrid,
   useToast,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { allSuggestions } from "../../constants/constants";
-import { replaceNewlinesWithBreaks, renderClickableLinksInMessage } from "../../constants/services";
+import {
+  replaceNewlinesWithBreaks,
+  renderClickableLinksInMessage,
+} from "../../constants/services";
 
 const AkharBotContainer = () => {
   const [userInput, setUserInput] = useState("");
@@ -28,34 +31,43 @@ const AkharBotContainer = () => {
   const toast = useToast();
 
   const sendMessageToBot = async () => {
-    setIsLoading(true);
-    setUserInput("");
-    try {
-      const response = await axios.post("https://akhar-ai.onrender.com/ask-akhar", {
-        userInput,
-        chatHistory,
+    if (userInput) {
+      setIsLoading(true);
+      setUserInput("");
+      try {
+        const response = await axios.post("https://akhar-ai.onrender.com/ask-akhar", {
+          userInput,
+          chatHistory,
+        });
+        const { botResponse, chatHistory: updatedHistory } = response.data;
+        setBotResponse(botResponse);
+        setChatHistory(updatedHistory);
+        setUserInput("");
+      } catch (error) {
+        console.error("Error sending message to bot:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      toast({
+        title: "Please enter your message",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
       });
-      const { botResponse, chatHistory: updatedHistory } = response.data;
-      setBotResponse(botResponse);
-      setChatHistory(updatedHistory);
-      setUserInput(""); // Reset text field after sending message
-    } catch (error) {
-      console.error("Error sending message to bot:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       sendMessageToBot();
-      setShowHeading(false);
+      userInput && setShowHeading(false);
     }
   };
 
   const handleSendClick = () => {
     sendMessageToBot();
-    setShowHeading(false);
+    userInput && setShowHeading(false);
   };
 
   const handleSuggestionClick = (suggestion) => {
@@ -152,7 +164,9 @@ const AkharBotContainer = () => {
       {/* Logo and Akhar Text */}
       <Flex align="center" mb={6}>
         <Image src="/logo.png" alt="Akhar Logo" width={30} height={30} mr={1} />
-        <Text fontSize="2xl" fontWeight="bold">akhar</Text>
+        <Text fontSize="2xl" fontWeight="bold">
+          akhar
+        </Text>
       </Flex>
 
       {/* Conditionally render the heading */}
@@ -188,7 +202,7 @@ const AkharBotContainer = () => {
         </React.Fragment>
       )}
 
-      <Box flex="1" ref={chatContainerRef} mb={4} overflowY={'auto'}>
+      <Box flex="1" ref={chatContainerRef} mb={4} overflowY={"auto"}>
         {chatHistory.map((message, index) => (
           <Flex
             key={index}
@@ -209,7 +223,9 @@ const AkharBotContainer = () => {
                   maxWidth="80%"
                   mb={2}
                   dangerouslySetInnerHTML={{
-                    __html: replaceNewlinesWithBreaks(renderClickableLinksInMessage(message[1])),
+                    __html: replaceNewlinesWithBreaks(
+                      renderClickableLinksInMessage(message[1])
+                    ),
                   }}
                 />
               )
@@ -222,7 +238,9 @@ const AkharBotContainer = () => {
                 maxWidth="80%"
                 mb={2}
                 dangerouslySetInnerHTML={{
-                  __html: replaceNewlinesWithBreaks(renderClickableLinksInMessage(message[1])),
+                  __html: replaceNewlinesWithBreaks(
+                    renderClickableLinksInMessage(message[1])
+                  ),
                 }}
               />
             )}
